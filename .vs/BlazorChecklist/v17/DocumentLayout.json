@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Hemant\\C#\\BlazorChecklist\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C6D62017-D8F8-400E-92E6-67BA9E351C99}|BlazorChecklist.csproj|c:\\hemant\\c#\\blazorchecklist\\components\\pages\\blazorchecklist.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C6D62017-D8F8-400E-92E6-67BA9E351C99}|BlazorChecklist.csproj|solutionrelative:components\\pages\\blazorchecklist.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BlazorChecklist.razor",
+              "DocumentMoniker": "C:\\Hemant\\C#\\BlazorChecklist\\Components\\Pages\\BlazorChecklist.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\BlazorChecklist.razor",
+              "ToolTip": "C:\\Hemant\\C#\\BlazorChecklist\\Components\\Pages\\BlazorChecklist.razor",
+              "RelativeToolTip": "Components\\Pages\\BlazorChecklist.razor",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAAAHgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-29T06:15:10.544Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

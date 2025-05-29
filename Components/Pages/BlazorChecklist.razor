@@ -1,0 +1,121 @@
+﻿
+<h1>BlazorChecklist</h1>
+
+<EditForm Model="_newTask" OnValidSubmit="AddTask">
+    <DataAnnotationsValidator />
+    <div class="col-auto align-self-end">
+        <button type="submit" class="btn btn-success me-2">Add Task</button>
+        <button type="button" class="btn btn-warning me-2" @onclick="ResetInput">Reset</button>
+        <button type="button" class="btn btn-danger" @onclick="DeleteAllTasks">Delete All</button>
+    </div>
+    <br/>
+    <div class="row mb-3">
+        <div class="col">
+            <InputTextArea @bind-Value="_newTask.Description"
+                           class="form-control"
+                           placeholder="Enter task description here"
+                           rows="2" />
+            <ValidationMessage For="() => _newTask.Description" />
+            <small class="text-muted">@($"{_newTask.Description?.Length ?? 0}/500 characters")</small>
+        </div>        
+    </div>
+</EditForm>
+
+<div class="list-group">
+    @foreach (var task in Tasks.AsEnumerable().Reverse())
+    {
+        <div class="list-group-item d-flex align-items-center" @key="task.Id">
+            <input type="checkbox"
+                   class="form-check-input me-2"
+                   disabled="@task.IsCompleted"
+                   checked="@task.IsCompleted"
+                   @onchange="() => CompleteTask(task.Id)" />
+
+            @if (EditingTaskId == task.Id)
+            {
+                <InputText @bind-Value="task.Description"
+                           class="form-control form-control-sm me-2"
+                           @onblur="() => StopEditing()"
+                           @onkeydown="@(e => { if (e.Key == "Enter") StopEditing(); })" />
+            }
+            else
+            {
+                <label class="flex-grow-1 mb-0"
+                       style="cursor:pointer"
+                       @onclick="() => StartEditing(task.Id)">
+                    @task.Description
+                </label>
+            }
+
+            @if (task.CheckedAt.HasValue)
+            {
+                <small class="text-muted me-2">
+                    Done at @task.CheckedAt.Value.ToString("HH:mm:ss")
+                </small>
+            }
+
+            @if (!task.IsCompleted)
+            {
+                <button class="btn btn-outline-danger btn-sm"
+                        aria-label="Delete @task.Description"
+                        @onclick="() => DeleteTask(task.Id)">
+                    ×
+                </button>
+            }
+        </div>
+    }
+</div>
+
+@code {
+
+    private NewTaskModel _newTask = new();
+    private List<TaskItem> Tasks { get; } = new() { };
+
+    private Guid? EditingTaskId { get; set; }
+
+    private void AddTask()
+    {
+        Tasks.Add(new TaskItem(_newTask.Description!.Trim()));
+        _newTask = new NewTaskModel();
+    }
+
+    private void ResetInput() => _newTask = new NewTaskModel();
+
+    private void DeleteAllTasks() => Tasks.Clear();
+
+    private void CompleteTask(Guid id)
+    {
+        var task = Tasks.SingleOrDefault(t => t.Id == id);
+        if (task is not null && !task.IsCompleted)
+        {
+            task.IsCompleted = true;
+            task.CheckedAt = DateTime.Now;
+        }
+    }
+
+    private void DeleteTask(Guid id)
+    {
+        var task = Tasks.SingleOrDefault(t => t.Id == id);
+        if (task is not null && !task.IsCompleted)
+            Tasks.Remove(task);
+    }
+
+    private void StartEditing(Guid id) => EditingTaskId = id;
+    private void StopEditing() => EditingTaskId = null;
+
+    private class NewTaskModel
+    {
+        [Required, StringLength(500)]
+        public string? Description { get; set; }
+    }
+
+    private class TaskItem
+    {
+        public Guid Id { get; } = Guid.NewGuid();
+        public string Description { get; set; }
+        public bool IsCompleted { get; set; }
+        public DateTime? CheckedAt { get; set; }
+
+        public TaskItem(string desc) => Description = desc;
+    }
+}
